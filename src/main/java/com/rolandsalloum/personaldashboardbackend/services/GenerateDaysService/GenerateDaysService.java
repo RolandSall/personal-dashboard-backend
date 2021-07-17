@@ -7,6 +7,7 @@ import com.rolandsalloum.personaldashboardbackend.services.DayReviewService.DayR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class GenerateDaysService implements IGenerateDaysService {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
+
     @Autowired
     public GenerateDaysService(DayReviewDTO dayReviewDTO) {
         this.dayReviewDTO = dayReviewDTO;
@@ -31,11 +33,14 @@ public class GenerateDaysService implements IGenerateDaysService {
     public void generateWeek(DayObject day) throws ParseException {
         List<Date> formattedDaysDateToBeGenerated = new ArrayList<>();
         c.setTime(sdf.parse(day.getDate()));
+
         formattedDaysDateToBeGenerated.add(c.getTime());
 
         for (int index = 1; index < 7; index++) {
             c.setTime(sdf.parse(day.getDate()));
             c.add(Calendar.DATE, index);
+
+
             formattedDaysDateToBeGenerated.add(c.getTime());
 
         }
