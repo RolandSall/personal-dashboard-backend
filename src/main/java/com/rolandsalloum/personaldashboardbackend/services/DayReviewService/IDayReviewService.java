@@ -8,4 +8,5 @@ public interface IDayReviewService {
     DayReview getDayReviewById(String dayId);
 
 
+    List<DayReview> getAllDayReviews();
 }

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/days")
 public class DayReviewController {
@@ -25,6 +27,17 @@ public class DayReviewController {
             DayReview dayReview = dayReviewService.getDayReviewById(dayId);
             DayReviewApiResponse response = buildDayReviewSingleApiResponseFrom(dayReview);
             return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getAllDayReviews() {
+        try {
+            List<DayReview> dayReviewList = dayReviewService.getAllDayReviews();
+
+            return ResponseEntity.status(HttpStatus.OK).body(dayReviewList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

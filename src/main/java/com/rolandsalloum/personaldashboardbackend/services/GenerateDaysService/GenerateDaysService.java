@@ -15,11 +15,11 @@ import java.util.List;
 @Service
 public class GenerateDaysService implements IGenerateDaysService {
 
-    private DayReviewDTO dayDayReviewDTO;
+    private final DayReviewDTO  dayReviewDTO;
 
     @Autowired
-    public GenerateDaysService(DayReviewService dayReviewService) {
-        this.dayDayReviewDTO = dayDayReviewDTO;
+    public GenerateDaysService(DayReviewDTO dayReviewDTO) {
+        this.dayReviewDTO = dayReviewDTO;
     }
 
     @Override
@@ -37,7 +37,8 @@ public class GenerateDaysService implements IGenerateDaysService {
 
 
         List<DayReview> dayReviewListGeneration = createDefaultDayReviewListFrom(daysToBeGenerated);
-        dayDayReviewDTO.save(new DayReview().builder().date("r").build());
+        dayReviewDTO.saveAll(dayReviewListGeneration);
+
 
     }
 
@@ -46,6 +47,12 @@ public class GenerateDaysService implements IGenerateDaysService {
         for (String day : daysToBeGenerated) {
             DayReview dayReviewDefault = DayReview.builder()
                     .date(day)
+                    .morningHabit(false)
+                    .note(null)
+                    .WakeUpEarly(false)
+                    .reading(false)
+                    .training(false)
+                    .defaultSetting(true)
                     .build();
             dayReviewList.add(dayReviewDefault);
         }

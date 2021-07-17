@@ -22,5 +22,10 @@ public class DayReviewService implements IDayReviewService{
         return dayReviewDTO.getById(dayId);
     }
 
+    @Override
+    public List<DayReview> getAllDayReviews() {
+        return dayReviewDTO.findAll();
+    }
+
 
 }

@@ -21,6 +21,7 @@ public class DayReview {
     private boolean training;
     private boolean morningHabit;
     private boolean reading;
+    private boolean defaultSetting;
 
 
 }
