@@ -10,12 +10,17 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class GenerateDaysService implements IGenerateDaysService {
 
-    private final DayReviewDTO  dayReviewDTO;
+    private final DayReviewDTO dayReviewDTO;
+    private Calendar c = Calendar.getInstance();
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 
     @Autowired
     public GenerateDaysService(DayReviewDTO dayReviewDTO) {
@@ -24,29 +29,28 @@ public class GenerateDaysService implements IGenerateDaysService {
 
     @Override
     public void generateWeek(DayObject day) throws ParseException {
-        List<String> daysToBeGenerated = new ArrayList<>();
-        daysToBeGenerated.add(new SimpleDateFormat("dd/MM/yyyy").parse(day.getDate()).toString().substring(0, 10));
+        List<Date> formattedDaysDateToBeGenerated = new ArrayList<>();
+        c.setTime(sdf.parse(day.getDate()));
+        formattedDaysDateToBeGenerated.add(c.getTime());
 
-        Integer dayIndex = Integer.parseInt(day.getDate().substring(0, 2));
+        for (int index = 1; index < 7; index++) {
+            c.setTime(sdf.parse(day.getDate()));
+            c.add(Calendar.DATE, index);
+            formattedDaysDateToBeGenerated.add(c.getTime());
 
-        for (int index = 0; index < 6; index++) {
-            dayIndex++;
-            String dateToBeAdded = dayIndex + day.getDate().substring(2);
-            daysToBeGenerated.add(new SimpleDateFormat("dd/MM/yyyy").parse(dateToBeAdded).toString().substring(0, 10));
         }
 
-
-        List<DayReview> dayReviewListGeneration = createDefaultDayReviewListFrom(daysToBeGenerated);
+        List<DayReview> dayReviewListGeneration = createDefaultDayReviewListFrom(formattedDaysDateToBeGenerated);
         dayReviewDTO.saveAll(dayReviewListGeneration);
-
 
     }
 
-    private List<DayReview> createDefaultDayReviewListFrom(List<String> daysToBeGenerated) {
+    private List<DayReview> createDefaultDayReviewListFrom(List<Date> daysToBeGenerated) throws ParseException {
         List<DayReview> dayReviewList = new ArrayList<>();
-        for (String day : daysToBeGenerated) {
+        for (Date dayDate : daysToBeGenerated) {
             DayReview dayReviewDefault = DayReview.builder()
-                    .date(day)
+                    .date(dayDate)
+                    .formattedDay(dayDate.toString())
                     .morningHabit(false)
                     .note(null)
                     .WakeUpEarly(false)

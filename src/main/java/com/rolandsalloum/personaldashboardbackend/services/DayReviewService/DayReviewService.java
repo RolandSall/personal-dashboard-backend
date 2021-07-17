@@ -1,5 +1,6 @@
 package com.rolandsalloum.personaldashboardbackend.services.DayReviewService;
 
+import com.rolandsalloum.personaldashboardbackend.controllers.DayReviewController.DayReviewRange;
 import com.rolandsalloum.personaldashboardbackend.models.DayReview;
 import com.rolandsalloum.personaldashboardbackend.repositories.DayReviewDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class DayReviewService implements IDayReviewService{
     @Override
     public List<DayReview> getAllDayReviews() {
         return dayReviewDTO.findAll();
+    }
+
+    @Override
+    public List<DayReview> getRangeOfAllDaysReview(DayReviewRange dayReviewRange) {
+        return  null;
     }
 
 

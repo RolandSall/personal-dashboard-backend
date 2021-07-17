@@ -43,11 +43,20 @@ public class DayReviewController {
         }
     }
 
-
+    @GetMapping("/range")
+    public ResponseEntity<?> getRangeOfAllDaysReview(@RequestBody DayReviewRange dayReviewRange) {
+        try {
+            List<DayReview> dayReviewList = dayReviewService.getRangeOfAllDaysReview(dayReviewRange);
+            return ResponseEntity.status(HttpStatus.OK).body(dayReviewList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 
     private DayReviewApiResponse buildDayReviewSingleApiResponseFrom(DayReview dayReview) {
         return DayReviewApiResponse.builder()
                 .date(dayReview.getDate())
+                .formattedDate(dayReview.getFormattedDay())
                 .morningHabit(dayReview.isMorningHabit())
                 .note(dayReview.getNote())
                 .reading(dayReview.isReading())

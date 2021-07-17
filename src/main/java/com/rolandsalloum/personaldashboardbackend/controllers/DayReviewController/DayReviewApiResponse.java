@@ -2,13 +2,16 @@ package com.rolandsalloum.personaldashboardbackend.controllers.DayReviewControll
 
 import lombok.*;
 
+import java.util.Date;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
 public class DayReviewApiResponse {
-    private String date;
+    private Date date;
+    private String formattedDate;
     private String note;
     private boolean WakeUpEarly;
     private boolean training;

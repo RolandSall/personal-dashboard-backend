@@ -15,7 +15,8 @@ import java.util.Date;
 public class DayReview {
 
     @Id
-    private String date;
+    private Date date;
+    private String formattedDay;
     private String note;
     private boolean WakeUpEarly;
     private boolean training;
