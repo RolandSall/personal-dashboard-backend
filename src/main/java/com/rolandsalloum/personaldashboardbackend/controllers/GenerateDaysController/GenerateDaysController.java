@@ -1,16 +1,12 @@
 package com.rolandsalloum.personaldashboardbackend.controllers.GenerateDaysController;
 
-import com.rolandsalloum.personaldashboardbackend.models.DayReview;
-import com.rolandsalloum.personaldashboardbackend.services.DayReviewService.DayReviewService;
 import com.rolandsalloum.personaldashboardbackend.services.GenerateDaysService.GenerateDaysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class GenerateDaysController {

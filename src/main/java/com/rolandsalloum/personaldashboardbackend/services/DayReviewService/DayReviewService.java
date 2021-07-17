@@ -34,8 +34,10 @@ public class DayReviewService implements IDayReviewService{
     }
 
     @Override
-    public List<DayReview> getRangeOfAllDaysReview(DayReviewRange dayReviewRange) {
-        return  null;
+    public List<DayReview> getRangeOfAllDaysReview(String start, String end) throws ParseException {
+        Date startDayDate = DateFor.parse(start);
+        Date endDayDate= DateFor.parse(end);
+        return dayReviewDTO.getDayReviewInRange(startDayDate, endDayDate);
     }
 
 

@@ -44,10 +44,10 @@ public class DayReviewController {
         }
     }
 
-    @GetMapping("/range")
-    public ResponseEntity<?> getRangeOfAllDaysReview(@RequestBody DayReviewRange dayReviewRange) {
+    @GetMapping("/range/from/{start}/to/{end}")
+    public ResponseEntity<?> getRangeOfAllDaysReview(@PathVariable String start, @PathVariable String end) {
         try {
-            List<DayReview> dayReviewList = dayReviewService.getRangeOfAllDaysReview(dayReviewRange);
+            List<DayReview> dayReviewList = dayReviewService.getRangeOfAllDaysReview(start,end);
             return ResponseEntity.status(HttpStatus.OK).body(dayReviewList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

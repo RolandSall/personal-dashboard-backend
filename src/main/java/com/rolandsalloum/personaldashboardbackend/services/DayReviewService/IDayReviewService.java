@@ -13,5 +13,5 @@ public interface IDayReviewService {
 
     List<DayReview> getAllDayReviews();
 
-    List<DayReview> getRangeOfAllDaysReview(DayReviewRange dayReviewRange);
+    List<DayReview> getRangeOfAllDaysReview(String start, String end) throws ParseException;
 }
