@@ -1,4 +1,4 @@
-package com.rolandsalloum.personaldashboardbackend.controllers;
+package com.rolandsalloum.personaldashboardbackend.controllers.DayReviewController;
 
 import lombok.*;
 

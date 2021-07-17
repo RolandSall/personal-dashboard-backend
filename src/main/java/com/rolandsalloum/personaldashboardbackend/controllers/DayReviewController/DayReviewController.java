@@ -1,15 +1,11 @@
-package com.rolandsalloum.personaldashboardbackend.controllers;
+package com.rolandsalloum.personaldashboardbackend.controllers.DayReviewController;
 
 import com.rolandsalloum.personaldashboardbackend.models.DayReview;
-import com.rolandsalloum.personaldashboardbackend.services.DayReviewService;
-import org.apache.coyote.Request;
+import com.rolandsalloum.personaldashboardbackend.services.DayReviewService.DayReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/days")
@@ -33,6 +29,8 @@ public class DayReviewController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
 
     private DayReviewApiResponse buildDayReviewSingleApiResponseFrom(DayReview dayReview) {
         return DayReviewApiResponse.builder()
