@@ -13,6 +13,6 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/dashboard
-    username: $user
-    password: $pass
+    username: postgres
+    password: postgres
 
