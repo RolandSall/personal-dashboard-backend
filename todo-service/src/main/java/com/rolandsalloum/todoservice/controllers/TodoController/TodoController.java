@@ -1,6 +1,7 @@
 package com.rolandsalloum.todoservice.controllers.TodoController;
 
-import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiRequest.*;
+import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPostRequest.*;
+import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPutRequest.*;
 import com.rolandsalloum.todoservice.models.Todo;
 import com.rolandsalloum.todoservice.models.tasks.*;
 import com.rolandsalloum.todoservice.services.todoService.TodoService;
@@ -39,13 +40,12 @@ public class TodoController {
     @DeleteMapping("/{todoDate}/tasks/{type}/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable UUID id, @PathVariable String type, @PathVariable String todoDate) {
         try {
-            UUID taskIdRemoved = todoService.deleteTask(id,type,todoDate);
+            UUID taskIdRemoved = todoService.deleteTask(id, type, todoDate);
             return ResponseEntity.status(HttpStatus.OK).body(taskIdRemoved);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
-
 
 
     @PostMapping
@@ -59,76 +59,159 @@ public class TodoController {
     }
 
     @PostMapping("/{todoDate}/tasks/working-task")
-    public ResponseEntity<?> addWorkingTaskOnExistingTodo(@RequestBody WorkingTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addWorkingTaskOnExistingTodo(@RequestBody WorkingTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromWorkingTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromWorkingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{todoDate}/tasks/working-task/{working-task-id}")
+    public ResponseEntity<?> updatingWorkingTaskById(@RequestBody WorkingTaskApiPutRequest request, @PathVariable String todoDate,
+                                                     @PathVariable("working-task-id") UUID workingTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromWorkingTaskPutRequest(request, workingTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
 
     @PostMapping("/{todoDate}/tasks/unexpected-task")
-    public ResponseEntity<?> addUnexpectedTaskOnExistingTodo(@RequestBody UnexpectedTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addUnexpectedTaskOnExistingTodo(@RequestBody UnexpectedTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromUnexpectedTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromUnexpectedTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @PutMapping("/{todoDate}/tasks/unexpected-task/{unexpected-task}")
+    public ResponseEntity<?> updatingUnexpectedTaskById(@RequestBody UnexpectedTaskApiPutRequest request, @PathVariable String todoDate,
+                                                     @PathVariable("unexpected-task") UUID unexpectedTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromUnexpectedTaskPutRequest(request, unexpectedTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
     @PostMapping("/{todoDate}/tasks/university-task")
-    public ResponseEntity<?> addUniversityTaskOnExistingTodo(@RequestBody UniversityTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addUniversityTaskOnExistingTodo(@RequestBody UniversityTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromUniversityTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromUniversityTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    @PostMapping("/{todoDate}/tasks/reading-task")
-    public ResponseEntity<?> addReadingTaskOnExistingTodo(@RequestBody ReadingTaskApiRequest request, @PathVariable String todoDate) {
+    @PutMapping("/{todoDate}/tasks/university-task/{university-task}")
+    public ResponseEntity<?> updatingUniversityTaskById(@RequestBody UniversityTaskApiPutRequest request, @PathVariable String todoDate,
+                                                        @PathVariable("university-task") UUID universityTaskId) {
         try {
-            todoService.addTaskOnExistingTodo(getFromReadingTaskRequest(request), todoDate);
+            todoService.updatingWorkingTaskById(getFromUniversityTaskPutRequest(request, universityTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+    @PostMapping("/{todoDate}/tasks/reading-task")
+    public ResponseEntity<?> addReadingTaskOnExistingTodo(@RequestBody ReadingTaskApiPostRequest request, @PathVariable String todoDate) {
+        try {
+            todoService.addTaskOnExistingTodo(getFromReadingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{todoDate}/tasks/reading-task/{reading-task}")
+    public ResponseEntity<?> updatingReadingTaskById(@RequestBody ReadingTaskApiPutRequest request, @PathVariable String todoDate,
+                                                        @PathVariable("reading-task") UUID universityTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromReadingTaskPutRequest(request, universityTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @PostMapping("/{todoDate}/tasks/personal-working-task")
-    public ResponseEntity<?> addPersonalWorkingTaskOnExistingTodo(@RequestBody PersonalWorkingTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addPersonalWorkingTaskOnExistingTodo(@RequestBody PersonalWorkingTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromPersonalWorkingTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromPersonalWorkingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{todoDate}/tasks/personal-working-task/{personal-working-task}")
+    public ResponseEntity<?> updatingReadingTaskById(@RequestBody PersonalWorkingTaskApiPutRequest request, @PathVariable String todoDate,
+                                                     @PathVariable("personal-working-task") UUID personalWorkingTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromPersonalWorkingTaskPutRequest(request, personalWorkingTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @PostMapping("/{todoDate}/tasks/other-task")
-    public ResponseEntity<?> addOtherTaskOnExistingTodo(@RequestBody OtherTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addOtherTaskOnExistingTodo(@RequestBody OtherTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromOtherTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromOtherTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{todoDate}/tasks/other-task/{other-task}")
+    public ResponseEntity<?> updatingOtherTaskById(@RequestBody OtherTaskApiPutRequest request, @PathVariable String todoDate,
+                                                     @PathVariable("other-task") UUID otherTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromOtherTaskPutRequest(request, otherTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
     @PostMapping("/{todoDate}/tasks/break-task")
-    public ResponseEntity<?> addBreakTaskOnExistingTodo(@RequestBody BreakTaskApiRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addBreakTaskOnExistingTodo(@RequestBody BreakTaskApiPostRequest request, @PathVariable String todoDate) {
         try {
-            todoService.addTaskOnExistingTodo(getFromBreakTaskRequest(request), todoDate);
+            todoService.addTaskOnExistingTodo(getFromBreakTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 
-    private BreakTask getFromBreakTaskRequest(BreakTaskApiRequest request) {
+    @PutMapping("/{todoDate}/tasks/break-task/{break-task}")
+    public ResponseEntity<?> updatingBreakTaskById(@RequestBody BreakTaskApiPutRequest request, @PathVariable String todoDate,
+                                                   @PathVariable("break-task") UUID breakTaskId) {
+        try {
+            todoService.updatingWorkingTaskById(getFromBreakTaskPutRequest(request, breakTaskId), todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body("Updated");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
+
+    private BreakTask getFromBreakTaskPostRequest(BreakTaskApiPostRequest request) {
         return BreakTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -139,9 +222,20 @@ public class TodoController {
                 .type(request.getType())
                 .build();
     }
+    private BreakTask getFromBreakTaskPutRequest(BreakTaskApiPutRequest request, UUID breakTaskId) {
+        return BreakTask.builder()
+                .id(breakTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .type(request.getType())
+                .build();
+    }
 
-
-    private OtherTask getFromOtherTaskRequest(OtherTaskApiRequest request) {
+    private OtherTask getFromOtherTaskPostRequest(OtherTaskApiPostRequest request) {
         return OtherTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -152,8 +246,20 @@ public class TodoController {
                 .type(request.getType())
                 .build();
     }
+    private OtherTask getFromOtherTaskPutRequest(OtherTaskApiPutRequest request, UUID otherTaskId) {
+        return OtherTask.builder()
+                .id(otherTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .type(request.getType())
+                .build();
+    }
 
-    private PersonalWorkingTask getFromPersonalWorkingTaskRequest(PersonalWorkingTaskApiRequest request) {
+    private PersonalWorkingTask getFromPersonalWorkingTaskPostRequest(PersonalWorkingTaskApiPostRequest request) {
         return PersonalWorkingTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -166,9 +272,23 @@ public class TodoController {
                 .level(request.getLevel())
                 .build();
     }
+    private PersonalWorkingTask getFromPersonalWorkingTaskPutRequest(PersonalWorkingTaskApiPutRequest request, UUID personalWorkingTaskId) {
+        return PersonalWorkingTask.builder()
+                .id(personalWorkingTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .typeOfLearning(request.getTypeOfLearning())
+                .topic(request.getTopic())
+                .level(request.getLevel())
+                .build();
+    }
 
 
-    private ReadingTask getFromReadingTaskRequest(ReadingTaskApiRequest request) {
+    private ReadingTask getFromReadingTaskPostRequest(ReadingTaskApiPostRequest request) {
         return ReadingTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -181,8 +301,22 @@ public class TodoController {
                 .level(request.getLevel())
                 .build();
     }
+    private ReadingTask getFromReadingTaskPutRequest(ReadingTaskApiPutRequest request, UUID readingTaskId) {
+        return ReadingTask.builder()
+                .id(readingTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .bookTitle(request.getBookTitle())
+                .type(request.getType())
+                .level(request.getLevel())
+                .build();
+    }
 
-    private UnexpectedTask getFromUnexpectedTaskRequest(UnexpectedTaskApiRequest request) {
+    private UnexpectedTask getFromUnexpectedTaskPostRequest(UnexpectedTaskApiPostRequest request) {
         return UnexpectedTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -194,9 +328,22 @@ public class TodoController {
                 .importanceLevel(request.getImportanceLevel())
                 .build();
     }
+    private UnexpectedTask getFromUnexpectedTaskPutRequest(UnexpectedTaskApiPutRequest request, UUID unexpectedTaskId) {
+        return UnexpectedTask.builder()
+                .id(unexpectedTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .reason(request.getReason())
+                .importanceLevel(request.getImportanceLevel())
+                .build();
+    }
 
 
-    private WorkingTask getFromWorkingTaskRequest(WorkingTaskApiRequest request) {
+    private WorkingTask getFromWorkingTaskPostRequest(WorkingTaskApiPostRequest request) {
         return WorkingTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -209,8 +356,23 @@ public class TodoController {
                 .importance(request.getImportance())
                 .build();
     }
+    private WorkingTask getFromWorkingTaskPutRequest(WorkingTaskApiPutRequest request, UUID workingTaskId) {
+        return WorkingTask.builder()
+                .id(workingTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .level(request.getLevel())
+                .type(request.getType())
+                .importance(request.getImportance())
+                .build();
+    }
 
-    private UniversityTask getFromUniversityTaskRequest(UniversityTaskApiRequest request) {
+
+    private UniversityTask getFromUniversityTaskPostRequest(UniversityTaskApiPostRequest request) {
         return UniversityTask.builder()
                 .done(false)
                 .assignedFrom(request.getAssignedFrom())
@@ -223,7 +385,20 @@ public class TodoController {
                 .courseType(request.getCourseType())
                 .build();
     }
-
+    private UniversityTask getFromUniversityTaskPutRequest(UniversityTaskApiPutRequest request, UUID universityTaskId) {
+        return UniversityTask.builder()
+                .id(universityTaskId)
+                .done(request.isDone())
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .level(request.getLevel())
+                .courseName(request.getCourseName())
+                .courseType(request.getCourseType())
+                .build();
+    }
 
     private Todo getFrom(TodoApiRequest request) {
         return Todo.builder()

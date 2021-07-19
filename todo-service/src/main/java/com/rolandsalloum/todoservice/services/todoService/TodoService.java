@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -84,6 +83,14 @@ public class TodoService implements ITodoService{
         todoRepository.save(specifiedTodo);
         return id;
     }
+
+    @Override
+    public void updatingWorkingTaskById(Task task, String todoDate) {
+        Todo specifiedTodo = todoRepository.findByDate(todoDate);
+        addNewTaskInCorrectSection(task, specifiedTodo);
+
+    }
+
 
 
     //TODO: think of a better way to do below

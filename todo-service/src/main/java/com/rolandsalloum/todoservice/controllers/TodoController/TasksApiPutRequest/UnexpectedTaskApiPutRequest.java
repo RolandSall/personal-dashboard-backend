@@ -1,4 +1,4 @@
-package com.rolandsalloum.todoservice.controllers.TodoController.TasksApiRequest;
+package com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPutRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class OtherTaskApiRequest extends TaskApiRequest{
-    private String type;
+public class UnexpectedTaskApiPutRequest extends TaskApiPutRequest {
+    private String reason;
+    private String importanceLevel;
 }

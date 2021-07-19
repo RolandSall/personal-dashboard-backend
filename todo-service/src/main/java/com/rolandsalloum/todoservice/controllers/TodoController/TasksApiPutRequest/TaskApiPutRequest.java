@@ -1,20 +1,17 @@
-package com.rolandsalloum.todoservice.models.tasks;
+package com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPutRequest;
 
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
-
-import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Task {
-    @Id
-    private UUID id;
+public class TaskApiPutRequest {
     private String assignedFrom;
     private String assignedTill;
     private String title;

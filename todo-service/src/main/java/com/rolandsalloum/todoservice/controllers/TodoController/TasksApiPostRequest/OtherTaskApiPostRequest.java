@@ -1,4 +1,4 @@
-package com.rolandsalloum.todoservice.controllers.TodoController.TasksApiRequest;
+package com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPostRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,9 +11,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class ReadingTaskApiRequest extends TaskApiRequest{
-    private String bookTitle;
+public class OtherTaskApiPostRequest extends TaskApiPostRequest {
     private String type;
-    private String level;
-
 }
