@@ -1,0 +1,12 @@
+package com.rolandsalloum.todoservice.models.tasks;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class OtherTask extends Task{
+    private String type;
+}
