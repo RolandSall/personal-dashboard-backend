@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/todos")
@@ -33,6 +34,18 @@ public class TodoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+
+    @DeleteMapping("/{todoDate}/tasks/{type}/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable UUID id, @PathVariable String type, @PathVariable String todoDate) {
+        try {
+            UUID taskIdRemoved = todoService.deleteTask(id,type,todoDate);
+            return ResponseEntity.status(HttpStatus.OK).body(taskIdRemoved);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
 
     @PostMapping
@@ -117,6 +130,7 @@ public class TodoController {
 
     private BreakTask getFromBreakTaskRequest(BreakTaskApiRequest request) {
         return BreakTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -129,6 +143,7 @@ public class TodoController {
 
     private OtherTask getFromOtherTaskRequest(OtherTaskApiRequest request) {
         return OtherTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -140,6 +155,7 @@ public class TodoController {
 
     private PersonalWorkingTask getFromPersonalWorkingTaskRequest(PersonalWorkingTaskApiRequest request) {
         return PersonalWorkingTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -154,6 +170,7 @@ public class TodoController {
 
     private ReadingTask getFromReadingTaskRequest(ReadingTaskApiRequest request) {
         return ReadingTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -167,6 +184,7 @@ public class TodoController {
 
     private UnexpectedTask getFromUnexpectedTaskRequest(UnexpectedTaskApiRequest request) {
         return UnexpectedTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -180,6 +198,7 @@ public class TodoController {
 
     private WorkingTask getFromWorkingTaskRequest(WorkingTaskApiRequest request) {
         return WorkingTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())
@@ -193,6 +212,7 @@ public class TodoController {
 
     private UniversityTask getFromUniversityTaskRequest(UniversityTaskApiRequest request) {
         return UniversityTask.builder()
+                .done(false)
                 .assignedFrom(request.getAssignedFrom())
                 .assignedTill(request.getAssignedTill())
                 .title(request.getTitle())

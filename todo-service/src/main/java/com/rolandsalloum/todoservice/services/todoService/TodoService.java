@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -34,8 +35,54 @@ public class TodoService implements ITodoService{
 
     @Override
     public void addTaskOnExistingTodo(Task task, String todoDate) {
+        UUID uuid = UUID.randomUUID();
+        task.setId(uuid);
         Todo specifiedTodo = todoRepository.findByDate(todoDate);
         addNewTaskInCorrectSection(task, specifiedTodo);
+    }
+
+    @Override
+    public UUID deleteTask(UUID id, String type, String todoDate) {
+        Todo specifiedTodo = todoRepository.findByDate(todoDate);
+
+
+        switch (type){
+            case "WorkingTask":
+                List<WorkingTask> workingTasks = specifiedTodo.getWorkingTasks();
+                workingTasks.removeIf(workingTask -> workingTask.getId().equals(id));
+                specifiedTodo.setWorkingTasks(workingTasks);
+                break;
+            case "BreakTask":
+                List<BreakTask> breakTasks = specifiedTodo.getBreakTasks();
+                breakTasks.removeIf(breakTask -> breakTask.getId().equals(id));
+                specifiedTodo.setBreakTasks(breakTasks);
+                break;
+            case "PersonalBreakingTask":
+                List<PersonalWorkingTask> personalWorkingTasks = specifiedTodo.getPersonalWorkingTasks();
+                personalWorkingTasks.removeIf(personalWorkingTask -> personalWorkingTask.getId().equals(id));
+                specifiedTodo.setPersonalWorkingTasks(personalWorkingTasks);
+                break;
+            case "ReadingTask":
+                List<ReadingTask> readingTasks = specifiedTodo.getReadingTasks();
+                readingTasks.removeIf(readingTask -> readingTask.getId().equals(id));
+                specifiedTodo.setReadingTasks(readingTasks);
+                break;
+            case "UnexpectedTask":
+                List<UnexpectedTask> unexpectedTasks = specifiedTodo.getUnexpectedTasks();
+                unexpectedTasks.removeIf(unexpectedTask -> unexpectedTask.getId().equals(id));
+                specifiedTodo.setUnexpectedTasks(unexpectedTasks);
+                break;
+            case "UniversityTask":
+                List<UniversityTask> universityTasks = specifiedTodo.getUniversityTasks();
+                universityTasks.removeIf(universityTask -> universityTask.getId().equals(id));
+                specifiedTodo.setUniversityTasks(universityTasks);
+                break;
+            default:
+                return id;
+        }
+
+        todoRepository.save(specifiedTodo);
+        return id;
     }
 
 
