@@ -9,9 +9,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
 
   datasource:
-    url: jdbc:postgresql://postgres-dashboard-db:5432/dashboard
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/dashboard
+    username: postgres
+    password: postgres
+

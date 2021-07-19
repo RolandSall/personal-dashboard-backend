@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      database: Todos
+      host: localhost
+      port: 27017
+  application:
+    name: todo-service
