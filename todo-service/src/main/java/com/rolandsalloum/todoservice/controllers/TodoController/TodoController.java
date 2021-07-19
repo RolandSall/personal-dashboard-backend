@@ -1,6 +1,8 @@
 package com.rolandsalloum.todoservice.controllers.TodoController;
 
+import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiRequest.WorkingTaskApiRequest;
 import com.rolandsalloum.todoservice.models.Todo;
+import com.rolandsalloum.todoservice.models.tasks.WorkingTask;
 import com.rolandsalloum.todoservice.services.todoService.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,29 @@ public class TodoController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/{todoDate}/tasks/working-task")
+    public ResponseEntity<?> addTaskOnExistingTodo(@RequestBody WorkingTaskApiRequest request, @PathVariable String todoDate) {
+        try {
+            todoService.addTaskOnExistingTodo(getFrom(request), todoDate);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    private WorkingTask getFrom(WorkingTaskApiRequest request) {
+        return WorkingTask.builder()
+                .assignedFrom(request.getAssignedFrom())
+                .assignedTill(request.getAssignedTill())
+                .title(request.getTitle())
+                .actualTimeSpent(request.getActualTimeSpent())
+                .description(request.getDescription())
+                .level(request.getLevel())
+                .type(request.getType())
+                .importance(request.getImportance())
+                .build();
     }
 
     private Todo getFrom(TodoApiRequest request) {

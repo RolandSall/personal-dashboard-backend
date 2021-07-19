@@ -8,4 +8,6 @@ import java.util.UUID;
 
 
 public interface TodoRepository extends MongoRepository<Todo, UUID> {
+
+    Todo findByDate(String date);
 }
