@@ -2,12 +2,13 @@ package com.rolandsalloum.todoservice.models.tasks;
 
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class UniversityTask extends Task{
     private String courseName;
     private String courseType;

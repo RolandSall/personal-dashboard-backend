@@ -1,12 +1,13 @@
 package com.rolandsalloum.todoservice.models.tasks;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class WorkingTask extends Task{
     private String type;
     private String level;
