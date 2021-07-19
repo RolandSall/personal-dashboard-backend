@@ -2,8 +2,7 @@ package com.rolandsalloum.todoservice.services.todoService;
 
 
 import com.rolandsalloum.todoservice.models.Todo;
-import com.rolandsalloum.todoservice.models.tasks.Task;
-import com.rolandsalloum.todoservice.models.tasks.WorkingTask;
+import com.rolandsalloum.todoservice.models.tasks.*;
 import com.rolandsalloum.todoservice.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,11 +35,49 @@ public class TodoService implements ITodoService{
     @Override
     public void addTaskOnExistingTodo(Task task, String todoDate) {
         Todo specifiedTodo = todoRepository.findByDate(todoDate);
+        addNewTaskInCorrectSection(task, specifiedTodo);
+    }
+
+
+    //TODO: think of a better way to do below
+    private void addNewTaskInCorrectSection(Task task, Todo specifiedTodo) {
         if (task instanceof WorkingTask) {
             List<WorkingTask> workingTasks = specifiedTodo.getWorkingTasks();
             workingTasks.add((WorkingTask) task);
             specifiedTodo.setWorkingTasks(workingTasks);
             todoRepository.save(specifiedTodo);
+        }else if(task instanceof UniversityTask){
+            List<UniversityTask> universityTasks = specifiedTodo.getUniversityTasks();
+            universityTasks.add((UniversityTask) task);
+            specifiedTodo.setUniversityTasks(universityTasks);
+            todoRepository.save(specifiedTodo);
+        }else if(task instanceof UnexpectedTask){
+            List<UnexpectedTask> unexpectedTasks = specifiedTodo.getUnexpectedTasks();
+            unexpectedTasks.add((UnexpectedTask) task);
+            specifiedTodo.setUnexpectedTasks(unexpectedTasks);
+            todoRepository.save(specifiedTodo);
+        }else if(task instanceof ReadingTask){
+            List<ReadingTask> readingTasks = specifiedTodo.getReadingTasks();
+            readingTasks.add((ReadingTask) task);
+            specifiedTodo.setReadingTasks(readingTasks);
+            todoRepository.save(specifiedTodo);
+        }else if(task instanceof PersonalWorkingTask){
+            List<PersonalWorkingTask> personalWorkingTasks = specifiedTodo.getPersonalWorkingTasks();
+            personalWorkingTasks.add((PersonalWorkingTask) task);
+            specifiedTodo.setPersonalWorkingTasks(personalWorkingTasks);
+            todoRepository.save(specifiedTodo);
+        }else if(task instanceof OtherTask){
+            List<OtherTask> otherTasks = specifiedTodo.getOtherTasks();
+            otherTasks.add((OtherTask) task);
+            specifiedTodo.setOtherTasks(otherTasks);
+            todoRepository.save(specifiedTodo);
+        }else if(task instanceof BreakTask){
+            List<BreakTask> breakTasks = specifiedTodo.getBreakTasks();
+            breakTasks.add((BreakTask) task);
+            specifiedTodo.setBreakTasks(breakTasks);
+            todoRepository.save(specifiedTodo);
+        }else{
+            // do nothing
         }
     }
 
