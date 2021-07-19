@@ -1,11 +1,13 @@
 package com.rolandsalloum.todoservice.services.todoService;
 
 
+import com.rolandsalloum.todoservice.models.Todo;
 import com.rolandsalloum.todoservice.repositories.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TodoService implements ITodoService{
@@ -20,5 +22,12 @@ public class TodoService implements ITodoService{
     @Override
     public List findAllTodos() {
         return todoRepository.findAll();
+    }
+
+    @Override
+    public Todo createTodo(Todo todo) {
+        UUID uuid = UUID.randomUUID();
+        todo.setId(uuid);
+        return todoRepository.save(todo);
     }
 }
