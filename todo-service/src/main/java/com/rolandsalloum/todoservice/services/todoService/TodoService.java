@@ -55,16 +55,26 @@ public class TodoService implements ITodoService{
     }
 
     @Override
-    public void addTaskOnExistingTodo(Task task, String todoDate) {
+    public void updatingWorkingTaskById(Task task, String todoDate) throws ParseException {
+        Long dateInLongFormat = timeConverterService.convertStringToLongDate(todoDate);
+        Todo specifiedTodo = todoRepository.findByDate(dateInLongFormat);
+        addNewTaskInCorrectSection(task, specifiedTodo);
+
+    }
+
+    @Override
+    public void addTaskOnExistingTodo(Task task, String todoDate) throws ParseException {
+        Long dateInLongFormat = timeConverterService.convertStringToLongDate(todoDate);
         UUID uuid = UUID.randomUUID();
         task.setId(uuid);
-        Todo specifiedTodo = todoRepository.findByDate(todoDate);
+        Todo specifiedTodo = todoRepository.findByDate(dateInLongFormat);
         addNewTaskInCorrectSection(task, specifiedTodo);
     }
 
     @Override
-    public UUID deleteTask(UUID id, String type, String todoDate) {
-        Todo specifiedTodo = todoRepository.findByDate(todoDate);
+    public UUID deleteTask(UUID id, String type, String todoDate) throws ParseException {
+        Long dateInLongFormat = timeConverterService.convertStringToLongDate(todoDate);
+        Todo specifiedTodo = todoRepository.findByDate(dateInLongFormat);
 
 
         switch (type){
@@ -105,14 +115,6 @@ public class TodoService implements ITodoService{
         todoRepository.save(specifiedTodo);
         return id;
     }
-
-    @Override
-    public void updatingWorkingTaskById(Task task, String todoDate) {
-        Todo specifiedTodo = todoRepository.findByDate(todoDate);
-        addNewTaskInCorrectSection(task, specifiedTodo);
-
-    }
-
 
 
     //TODO: think of a better way to do below

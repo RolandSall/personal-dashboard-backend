@@ -13,12 +13,12 @@ public interface ITodoService {
 
     Todo createTodo(Todo todo);
 
-    void addTaskOnExistingTodo(Task task, String todoDate);
+    void addTaskOnExistingTodo(Task task, String todoDate) throws ParseException;
 
-    UUID deleteTask(UUID id, String type, String todoDate);
+    UUID deleteTask(UUID id, String type, String todoDate) throws ParseException;
 
 
-    void updatingWorkingTaskById(Task task, String todoDate);
+    void updatingWorkingTaskById(Task task, String todoDate) throws ParseException;
 
 
     Todo getSingleTodoForSpecifiedDate(String startDate) throws ParseException;
