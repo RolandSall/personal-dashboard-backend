@@ -4,9 +4,11 @@ package com.rolandsalloum.todoservice.services.todoService;
 import com.rolandsalloum.todoservice.models.Todo;
 import com.rolandsalloum.todoservice.models.tasks.*;
 import com.rolandsalloum.todoservice.repositories.TodoRepository;
+import com.rolandsalloum.todoservice.services.helperService.TimeConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,16 +16,35 @@ import java.util.UUID;
 public class TodoService implements ITodoService{
 
     private TodoRepository todoRepository;
+    private TimeConverterService timeConverterService;
+
 
     @Autowired
-    public TodoService(TodoRepository todoRepository) {
+    public TodoService(TodoRepository todoRepository, TimeConverterService timeConverterService) {
         this.todoRepository = todoRepository;
+        this.timeConverterService = timeConverterService;
     }
 
     @Override
     public List findAllTodos() {
         return todoRepository.findAll();
     }
+
+    @Override
+    public Todo getSingleTodoForSpecifiedDate(String startDate) throws ParseException {
+        Long dateInLongFormat = timeConverterService.convertStringToLongDate(startDate);
+        Todo specifiedTodo = todoRepository.findByDate(dateInLongFormat);
+        return specifiedTodo;
+    }
+
+    @Override
+    public List<Todo> getTodoForSpecifiedRangeDates(String startDate, String endDate) throws ParseException {
+        Long startingDateInLongFormat = timeConverterService.convertStringToLongDate(startDate);
+        Long endingDateInLongFormat = timeConverterService.convertStringToLongDate(endDate);
+        List<Todo> todoOfSpecifiedRangeOfDates = todoRepository.findAllByDateTimeBetween(startingDateInLongFormat, endingDateInLongFormat);
+        return todoOfSpecifiedRangeOfDates;
+    }
+
 
     @Override
     public Todo createTodo(Todo todo) {

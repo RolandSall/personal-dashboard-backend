@@ -42,6 +42,22 @@ public class TodoController {
         }
     }
 
+    @GetMapping("/start/{startDate}/end/{endDate}")
+    public ResponseEntity<?> getTodoForSpecifiedDates(@PathVariable String endDate, @PathVariable String startDate) {
+        try {
+            if(endDate.equals(startDate)) {
+                Todo todo = todoService.getSingleTodoForSpecifiedDate(startDate);
+                return ResponseEntity.status(HttpStatus.OK).body(todo);
+            }else {
+                List<Todo> listOfTodos = todoService.getTodoForSpecifiedRangeDates(startDate,endDate);
+                return ResponseEntity.status(HttpStatus.OK).body(listOfTodos);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+
 
     @DeleteMapping("/{todoDate}/tasks/{type}/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable UUID id, @PathVariable String type, @PathVariable String todoDate) {
