@@ -29,7 +29,8 @@ public class TodoService implements ITodoService{
     public Todo createTodo(Todo todo) {
         UUID uuid = UUID.randomUUID();
         todo.setId(uuid);
-        return todoRepository.save(todo);
+        Todo savedToDo = todoRepository.save(todo);
+        return savedToDo;
     }
 
     @Override

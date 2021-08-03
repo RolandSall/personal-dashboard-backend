@@ -4,12 +4,16 @@ import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPostRequ
 import com.rolandsalloum.todoservice.controllers.TodoController.TasksApiPutRequest.*;
 import com.rolandsalloum.todoservice.models.Todo;
 import com.rolandsalloum.todoservice.models.tasks.*;
+import com.rolandsalloum.todoservice.services.helperService.ITimeConverterService;
 import com.rolandsalloum.todoservice.services.todoService.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,12 +23,14 @@ public class TodoController {
 
 
     private TodoService todoService;
+    private ITimeConverterService timeConverterService;
+
 
     @Autowired
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoService todoService, ITimeConverterService timeConverterService) {
         this.todoService = todoService;
+        this.timeConverterService = timeConverterService;
     }
-
 
     @GetMapping
     public ResponseEntity<?> findAllTodos() {
@@ -51,8 +57,8 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<?> createTodo(@RequestBody TodoApiRequest request) {
         try {
-            Todo todoList = todoService.createTodo(getFrom(request));
-            return ResponseEntity.status(HttpStatus.OK).body(todoList);
+            Todo todo = todoService.createTodo(getFrom(request));
+            return ResponseEntity.status(HttpStatus.OK).body(timeConverterService.convertLongToActualDate(todo.getDate()).toString());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -400,16 +406,16 @@ public class TodoController {
                 .build();
     }
 
-    private Todo getFrom(TodoApiRequest request) {
+    private Todo getFrom(TodoApiRequest request) throws ParseException {
         return Todo.builder()
-                .breakTasks(request.getBreakTasks())
-                .otherTasks(request.getOtherTasks())
-                .date(request.getDate())
-                .personalWorkingTasks(request.getPersonalWorkingTasks())
-                .readingTasks(request.getReadingTasks())
-                .unexpectedTasks(request.getUnexpectedTasks())
-                .universityTasks(request.getUniversityTasks())
-                .workingTasks(request.getWorkingTasks())
+                .breakTasks(Collections.emptyList())
+                .otherTasks(Collections.emptyList())
+                .date(timeConverterService.convertStringToLongDate(request.getDate()))
+                .personalWorkingTasks(Collections.emptyList())
+                .readingTasks(Collections.emptyList())
+                .unexpectedTasks(Collections.emptyList())
+                .universityTasks(Collections.emptyList())
+                .workingTasks(Collections.emptyList())
                 .build();
     }
 }

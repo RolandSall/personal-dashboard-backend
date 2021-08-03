@@ -4,5 +4,6 @@ spring:
       database: Todos
       host: localhost
       port: 27017
+      auto-index-creation: true
   application:
     name: todo-service

@@ -3,8 +3,10 @@ package com.rolandsalloum.todoservice.models;
 import com.rolandsalloum.todoservice.models.tasks.*;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +20,9 @@ public class Todo {
 
     @Id
     private UUID id;
-    private String date;
+
+    @Indexed(unique=true)
+    private Long date;
 
     private List<UniversityTask> universityTasks;
     private List<UnexpectedTask> unexpectedTasks;
