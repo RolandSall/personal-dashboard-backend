@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: rating-service
+  cloud:
+    config:
+      uri: https://pdts-configuration-service.herokuapp.com/
+  profiles:
+    active: local

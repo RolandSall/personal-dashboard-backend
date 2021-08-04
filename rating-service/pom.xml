@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.rolandsalloum</groupId>
-    <artifactId>personal-dashboard-backend</artifactId>
+    <artifactId>rating-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>personal-dashboard-backend</name>
+    <name>rating-service</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
@@ -43,6 +43,21 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <dependency>
@@ -90,7 +105,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>personal-dashboard</finalName>
+        <finalName>rating-service</finalName>
     </build>
 
 </project>

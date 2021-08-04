@@ -3,9 +3,10 @@ package com.rolandsalloum.todoservice;
 import com.rolandsalloum.todoservice.models.tasks.UniversityTask;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-
+@EnableEurekaClient
 public class TodoServiceApplication {
 
     public static void main(String[] args) {

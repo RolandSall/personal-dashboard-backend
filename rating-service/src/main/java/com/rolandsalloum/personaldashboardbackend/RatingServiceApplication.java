@@ -2,12 +2,14 @@ package com.rolandsalloum.personaldashboardbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
-public class PersonalDashboardBackendApplication {
+@EnableEurekaClient
+public class RatingServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PersonalDashboardBackendApplication.class, args);
+        SpringApplication.run(RatingServiceApplication.class, args);
     }
 
 }
