@@ -1,10 +1,10 @@
-package com.rolandsalloum.discoveryservice;
+package com.rolandsalloum.configurationservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DiscoveryServiceApplicationTests {
+class ConfigurationServiceApplicationTests {
 
     @Test
     void contextLoads() {
