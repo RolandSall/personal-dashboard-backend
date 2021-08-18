@@ -14,18 +14,25 @@ services:
     volumes:
       - target-data:/var/lib/postgresql/data
 
+    networks:
+      - default
 
 
-
-  app:
-    container_name: personal-dashboard-backend
-    image: rolandsall24/personal-dashboard-backend:1.0.0
+  rating-service-backend-sb:
+    container_name: rating-service-backend
+    image: rolandsall24/rating-service-backend:1.0.0
     build: ./
     ports:
       - "8080:8080"
     depends_on:
       - postgres-dashboard-db
 
+    networks:
+      - default
 
 volumes:
   target-data:
+
+networks:
+  default:
+    driver: bridge

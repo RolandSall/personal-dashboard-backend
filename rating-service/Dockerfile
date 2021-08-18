@@ -1,5 +1,13 @@
 FROM openjdk:11
+
+LABEL author="Roland Salloum"
+
+ENV PORT=8080
+
 VOLUME /tmp
-ADD  target/personal-dashboard.jar personal-dashboard.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/personal-dashboard.jar"]
+
+ADD  target/rating-service.jar rating-service.jar
+
+EXPOSE $PORT
+
+ENTRYPOINT ["java","-jar","/rating-service.jar"]
