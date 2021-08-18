@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.5'
 services:
   mongo:
     image: mongo
@@ -6,6 +6,8 @@ services:
     restart: always
     ports:
       - 27017:27017
+    networks:
+      - default
 
   app:
     container_name: todo-service
@@ -13,5 +15,11 @@ services:
     build: ./
     ports:
       - "8080:8080"
-    links:
+    networks:
+      - default
+    depends_on:
       - mongo
+
+networks:
+  default:
+    driver: bridge
