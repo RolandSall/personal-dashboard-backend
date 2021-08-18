@@ -24,4 +24,6 @@ public interface ITodoService {
     Todo getSingleTodoForSpecifiedDate(String startDate) throws ParseException;
 
     List<Todo> getTodoForSpecifiedRangeDates(String startDate, String endDate) throws ParseException;
+
+    UUID deleteDayTodoById(UUID todoId);
 }

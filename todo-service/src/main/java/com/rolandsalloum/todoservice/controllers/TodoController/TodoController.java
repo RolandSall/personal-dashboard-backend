@@ -6,6 +6,7 @@ import com.rolandsalloum.todoservice.models.Todo;
 import com.rolandsalloum.todoservice.models.tasks.*;
 import com.rolandsalloum.todoservice.services.helperService.ITimeConverterService;
 import com.rolandsalloum.todoservice.services.todoService.TodoService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,16 @@ public class TodoController {
     public ResponseEntity<?> findAllTodos() {
         try {
             List<Todo> todoList = todoService.findAllTodos();
+            return ResponseEntity.status(HttpStatus.OK).body(todoList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<?> deleteDayTodoById(@PathVariable UUID todoId) {
+        try {
+            UUID todoList = todoService.deleteDayTodoById(todoId);
             return ResponseEntity.status(HttpStatus.OK).body(todoList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -81,7 +92,7 @@ public class TodoController {
     }
 
     @PostMapping("/{todoDate}/tasks/working-task")
-    public ResponseEntity<?> addWorkingTaskOnExistingTodo(@RequestBody WorkingTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addWorkingTaskOnExistingTodo(@RequestBody WorkingTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true) @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromWorkingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -91,7 +102,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/working-task/{working-task-id}")
-    public ResponseEntity<?> updatingWorkingTaskById(@RequestBody WorkingTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingWorkingTaskById(@RequestBody WorkingTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                      @PathVariable("working-task-id") UUID workingTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromWorkingTaskPutRequest(request, workingTaskId), todoDate);
@@ -104,7 +115,7 @@ public class TodoController {
 
 
     @PostMapping("/{todoDate}/tasks/unexpected-task")
-    public ResponseEntity<?> addUnexpectedTaskOnExistingTodo(@RequestBody UnexpectedTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addUnexpectedTaskOnExistingTodo(@RequestBody UnexpectedTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromUnexpectedTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -114,7 +125,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/unexpected-task/{unexpected-task}")
-    public ResponseEntity<?> updatingUnexpectedTaskById(@RequestBody UnexpectedTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingUnexpectedTaskById(@RequestBody UnexpectedTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                      @PathVariable("unexpected-task") UUID unexpectedTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromUnexpectedTaskPutRequest(request, unexpectedTaskId), todoDate);
@@ -126,7 +137,7 @@ public class TodoController {
 
 
     @PostMapping("/{todoDate}/tasks/university-task")
-    public ResponseEntity<?> addUniversityTaskOnExistingTodo(@RequestBody UniversityTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addUniversityTaskOnExistingTodo(@RequestBody UniversityTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromUniversityTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -136,10 +147,10 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/university-task/{university-task}")
-    public ResponseEntity<?> updatingUniversityTaskById(@RequestBody UniversityTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingUniversityTaskById(@RequestBody UniversityTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                         @PathVariable("university-task") UUID universityTaskId) {
         try {
-            todoService.updatingWorkingTaskById(getFromUniversityTaskPutRequest(request, universityTaskId), todoDate);
+            todoService.updatingWorkingTaskById(getFromUniversityTaskPutRequest(request, universityTaskId),  todoDate);
             return ResponseEntity.status(HttpStatus.OK).body("Updated");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -148,7 +159,7 @@ public class TodoController {
 
 
     @PostMapping("/{todoDate}/tasks/reading-task")
-    public ResponseEntity<?> addReadingTaskOnExistingTodo(@RequestBody ReadingTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addReadingTaskOnExistingTodo(@RequestBody ReadingTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromReadingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -158,7 +169,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/reading-task/{reading-task}")
-    public ResponseEntity<?> updatingReadingTaskById(@RequestBody ReadingTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingReadingTaskById(@RequestBody ReadingTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                         @PathVariable("reading-task") UUID universityTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromReadingTaskPutRequest(request, universityTaskId), todoDate);
@@ -169,7 +180,7 @@ public class TodoController {
     }
 
     @PostMapping("/{todoDate}/tasks/personal-working-task")
-    public ResponseEntity<?> addPersonalWorkingTaskOnExistingTodo(@RequestBody PersonalWorkingTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addPersonalWorkingTaskOnExistingTodo(@RequestBody PersonalWorkingTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromPersonalWorkingTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -179,7 +190,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/personal-working-task/{personal-working-task}")
-    public ResponseEntity<?> updatingReadingTaskById(@RequestBody PersonalWorkingTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingReadingTaskById(@RequestBody PersonalWorkingTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                      @PathVariable("personal-working-task") UUID personalWorkingTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromPersonalWorkingTaskPutRequest(request, personalWorkingTaskId), todoDate);
@@ -190,7 +201,7 @@ public class TodoController {
     }
 
     @PostMapping("/{todoDate}/tasks/other-task")
-    public ResponseEntity<?> addOtherTaskOnExistingTodo(@RequestBody OtherTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addOtherTaskOnExistingTodo(@RequestBody OtherTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromOtherTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -200,7 +211,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/other-task/{other-task}")
-    public ResponseEntity<?> updatingOtherTaskById(@RequestBody OtherTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingOtherTaskById(@RequestBody OtherTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate,
                                                      @PathVariable("other-task") UUID otherTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromOtherTaskPutRequest(request, otherTaskId), todoDate);
@@ -211,7 +222,7 @@ public class TodoController {
     }
 
     @PostMapping("/{todoDate}/tasks/break-task")
-    public ResponseEntity<?> addBreakTaskOnExistingTodo(@RequestBody BreakTaskApiPostRequest request, @PathVariable String todoDate) {
+    public ResponseEntity<?> addBreakTaskOnExistingTodo(@RequestBody BreakTaskApiPostRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)  @PathVariable String todoDate) {
         try {
             todoService.addTaskOnExistingTodo(getFromBreakTaskPostRequest(request), todoDate);
             return ResponseEntity.status(HttpStatus.CREATED).body("Created");
@@ -221,7 +232,7 @@ public class TodoController {
     }
 
     @PutMapping("/{todoDate}/tasks/break-task/{break-task}")
-    public ResponseEntity<?> updatingBreakTaskById(@RequestBody BreakTaskApiPutRequest request, @PathVariable String todoDate,
+    public ResponseEntity<?> updatingBreakTaskById(@RequestBody BreakTaskApiPutRequest request, @ApiParam(value = "Date Format: YYYY-MM-DD", required = true)   @PathVariable String todoDate,
                                                    @PathVariable("break-task") UUID breakTaskId) {
         try {
             todoService.updatingWorkingTaskById(getFromBreakTaskPutRequest(request, breakTaskId), todoDate);

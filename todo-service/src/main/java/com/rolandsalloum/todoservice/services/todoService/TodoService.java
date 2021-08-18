@@ -45,6 +45,12 @@ public class TodoService implements ITodoService{
         return todoOfSpecifiedRangeOfDates;
     }
 
+    @Override
+    public UUID deleteDayTodoById(UUID todoId) {
+        todoRepository.deleteById(todoId);
+        return todoId;
+    }
+
 
     @Override
     public Todo createTodo(Todo todo) {
